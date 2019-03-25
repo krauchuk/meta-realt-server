@@ -1,0 +1,17 @@
+{
+  "name": "meta-realt-server",
+  "version": "0.1.0",
+  "description": "meta-realt project server, parser for realt ads",
+  "main": "index.js",
+  "author": "Igor Kravchuk",
+  "license": "MIT",
+  "private": null,
+  "dependencies": {
+    "axios": "^0.18.0",
+    "cheerio": "^1.0.0-rc.2",
+    "cors": "^2.8.5",
+    "express": "^4.16.4",
+    "osmosis": "^1.1.8",
+    "pg": "^7.8.0"
+  }
+}

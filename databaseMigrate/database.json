@@ -1,0 +1,10 @@
+{
+  "dev": {
+    "host": "localhost",
+    "user": "postgres" ,
+    "password" : "root",
+    "database": "meta-realt",
+    "driver": "pg",
+    "multipleStatements": true
+  }
+}
