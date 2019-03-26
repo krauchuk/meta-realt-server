@@ -14,13 +14,13 @@
   npm install -g db-migrate
   npm install -g db-migrate-pg
   ```
-  go to 'server\databaseMigrate' folder and run command:
+  go to 'databaseMigrate' folder and run command:
   ```
   db-migrate up
   ```
 
 ### Server setup
-  1. Go to server directory and install dependencies from file 'package.json':
+  1. Go to root directory and install dependencies from file 'package.json':
   ```
   yarn install
   ```
@@ -30,4 +30,4 @@
   node index.js
   ```
 ### Front-end application setup
-go [front-end app repository](https://github.com/voronozavr/meta-realt) to install front-end and use application
+install front-end from [repository](https://github.com/voronozavr/meta-realt) to use application
