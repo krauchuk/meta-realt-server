@@ -1,6 +1,6 @@
 {
   "name": "meta-realt-server",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "meta-realt project server, parser for realt ads",
   "main": "index.js",
   "author": "Igor Kravchuk",
@@ -8,12 +8,14 @@
   "private": false,
   "dependencies": {
     "axios": "^0.18.0",
+    "body-parser": "^1.18.3",
     "cheerio": "^1.0.0-rc.2",
     "cors": "^2.8.5",
     "express": "^4.16.4",
-    "orm": "^5.0.4",
     "osmosis": "^1.1.8",
-    "pg": "^7.8.0"
+    "pg": "^7.8.0",
+    "pg-hstore": "^2.3.2",
+    "sequelize": "^5.2.1"
   },
   "devDependencies": {
     "babel-eslint": "^10.0.1",
@@ -21,5 +23,8 @@
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-babel": "^5.3.0",
     "eslint-plugin-import": "^2.16.0"
+  },
+  "scripts": {
+    "start": "node src/index.js"
   }
 }

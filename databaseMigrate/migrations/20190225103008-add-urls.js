@@ -14,9 +14,11 @@ exports.setup = function(options, seedLink) {
 exports.up = function(db) {
   return db.createTable('urls', {
     id: { type: 'bigserial', primaryKey: true },
-    url: 'character varying',
+    address: 'character varying',
     parsed: 'boolean',
     optionkey: 'character varying',
+    createdAt: 'date',
+    updatedAt: 'date',
   });
 };
 
