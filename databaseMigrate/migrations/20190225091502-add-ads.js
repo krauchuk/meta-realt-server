@@ -20,6 +20,8 @@ exports.up = function(db) {
     square: 'character varying',
     regionid: 'bigint',
     localityid: 'bigint',
+    createdAt: 'date',
+    updatedAt: 'date',
   });
 };
 

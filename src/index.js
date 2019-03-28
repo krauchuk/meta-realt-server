@@ -1,16 +1,21 @@
 const express = require('express');
 const cors = require('cors');
-const db = require('./queries/queries');
+const bodyParser = require('body-parser');
+const regionRouter = require('./routers/region');
+const localityRouter = require('./routers/locality');
+const adRouter = require('./routers/ad');
 const scraper = require('./scraper');
 
 const scraperEnabled = false;
 
 const app = express();
 app.use(cors());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
-app.get('/ads', db.getAds);
-app.get('/regions', db.getRegions);
-app.get('/localities', db.getLocalities);
+app.use('/region', regionRouter);
+app.use('/locality', localityRouter);
+app.use('/ad', adRouter);
 
 app.listen(3333, () => {
   console.log('server is running');

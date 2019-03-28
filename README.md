@@ -25,9 +25,9 @@
   yarn install
   ```
   2. To enable scraper change const 'scraperEnabled' to 'true' in index.js
-  3. Go to folder 'src', start server with the command:
+  3. Start server with the command:
   ```
-  node index.js
+  yarn start
   ```
 ### Front-end application setup
 install front-end from [repository](https://github.com/voronozavr/meta-realt) to use application

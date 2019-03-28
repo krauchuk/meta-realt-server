@@ -15,6 +15,8 @@ exports.up = function(db) {
   return db.createTable('regions', {
     id: { type: 'bigserial', primaryKey: true },
     name: 'character varying',
+    createdAt: 'date',
+    updatedAt: 'date',
   });
 };
 

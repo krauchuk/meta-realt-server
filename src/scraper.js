@@ -1,6 +1,10 @@
 const parser = require('./parser/parser');
-const db = require('./queries/queries');
 const options = require('./parser/parserOptions');
+
+const urls = require('./controllers/url');
+const regions = require('./controllers/region');
+const localities = require('./controllers/locality');
+const ads = require('./controllers/ad');
 
 const saveNewUrls = async () => {
   for (const [optionKey, option] of options) {
@@ -8,8 +12,8 @@ const saveNewUrls = async () => {
     const adsUrls = await parser.parseAdsList(option);
     console.log('Ads List is parsed');
     for (const adUrl of adsUrls) {
-      if (!await db.getUrlByUrl(adUrl)) {
-        if (db.saveUrl(adUrl, optionKey)) {
+      if (!await urls.getUrlByAddr(adUrl)) {
+        if (urls.saveUrl(adUrl, optionKey)) {
           console.log(`Url: ${adUrl} saved`);
         }
       }
@@ -29,17 +33,17 @@ const getLocality = async (address) => {
     regionName = addrArr[0];
     localityName = addrArr[3].replace(',', '');
   }
-  let region = await db.getRegionByName(regionName);
+  let region = await regions.getRegionByName(regionName);
   if (!region) {
-    if (await db.saveRegion(regionName)) {
-      region = await db.getRegionByName(regionName);
+    if (await regions.saveRegion(regionName)) {
+      region = await regions.getRegionByName(regionName);
       console.log(`Region: ${region.name}(id: ${region.id}) saved`);
     }
   }
-  let locality = await db.getLocalityByNameAndRegion(localityName, region.id);
+  let locality = await localities.getLocalityByNameAndRegion(localityName, region.id);
   if (!locality) {
-    if (await db.saveLocality(localityName, region.id)) {
-      locality = await db.getLocalityByNameAndRegion(localityName, region.id);
+    if (await localities.saveLocality(localityName, region.id)) {
+      locality = await localities.getLocalityByNameAndRegion(localityName, region.id);
       console.log(`Locality: ${locality.name}(id: ${locality.id}, regionid: ${locality.regionid}) saved`);
     }
   }
@@ -47,21 +51,21 @@ const getLocality = async (address) => {
 };
 
 const parseAndSaveAds = async () => {
-  const urlArr = await db.getNotParsedUrls();
+  const urlArr = await urls.getNotParsedUrls();
   for (let i = 0; i < urlArr.length; i += 1) {
-    console.log(`Parsing ad: ${urlArr[i].url}`);
+    console.log(`Parsing ad: ${urlArr[i].address}`);
     const url = urlArr[i];
     const option = options.get(url.optionkey).adOptions;
     const format = options.get(url.optionkey).formatOptions;
-    const ad = await parser.parseAd(url.url, option);
+    const ad = await parser.parseAd(url.address, option);
     const address = format.address(ad.address);
     const rooms = ad.rooms ? format.rooms(ad.rooms) : null;
     const price = format.price(ad.price);
     const square = format.square(ad.square);
     const locality = await getLocality(address);
-    if (db.saveAd(address, price, rooms, square, locality.regionid, locality.id)) {
+    if (ads.saveAd(address, price, rooms, square, locality.regionid, locality.id)) {
       console.log('__ad saved');
-      db.changeUrlParsedStatus(url.id);
+      urls.changeUrlParsedStatus(url.id);
     }
   }
   console.log('All ads saved');
