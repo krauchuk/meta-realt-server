@@ -13,9 +13,9 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use('/region', regionRouter);
-app.use('/locality', localityRouter);
-app.use('/ad', adRouter);
+app.use('/regions', regionRouter);
+app.use('/localities', localityRouter);
+app.use('/ads', adRouter);
 
 app.listen(3333, () => {
   console.log('server is running');
