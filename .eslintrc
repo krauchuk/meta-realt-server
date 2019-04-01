@@ -8,5 +8,11 @@
   "plugins": [
     "babel"
   ],
-  "rules": {}
+  "rules": {
+    "no-restricted-syntax": ["error", "ForInStatement"],
+    "no-await-in-loop": 0,
+    "prefer-destructuring": ["error", {
+      "array": false
+    }]
+  }
 }
