@@ -40,4 +40,15 @@ router.get('/count', (req, res) => {
     .catch(err => console.log(err));
 });
 
+router.get('/id/:id', (req, res) => {
+  const { id } = req.params;
+  Ad.findOne({
+    where: { id },
+  })
+    .then((ad) => {
+      res.send(ad);
+    })
+    .catch(err => console.log(err));
+});
+
 module.exports = router;
