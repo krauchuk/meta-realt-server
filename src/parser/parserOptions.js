@@ -7,6 +7,7 @@ const hataByOptions = {
     price: '.value',
     rooms: '.i-table tr + tr .value',
     square: '.b-card__product .num',
+    description: '.b-card__article .description',
   },
   formatOptions: {
     address: (str) => {
@@ -34,6 +35,7 @@ const hataByOptions = {
       return result;
     },
     square: str => (str.split(' ')[0]),
+    description: str => str,
   },
 };
 

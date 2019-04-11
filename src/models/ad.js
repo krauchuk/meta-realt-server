@@ -21,6 +21,9 @@ const Ad = db.define('ad', {
   square: {
     type: Sequelize.STRING,
   },
+  description: {
+    type: Sequelize.STRING,
+  },
 });
 
 Ad.belongsTo(Region, {

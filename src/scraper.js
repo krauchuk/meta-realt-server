@@ -62,8 +62,9 @@ const parseAndSaveAds = async () => {
     const rooms = ad.rooms ? format.rooms(ad.rooms) : null;
     const price = format.price(ad.price);
     const square = format.square(ad.square);
+    const description = format.description(ad.description);
     const locality = await getLocality(address);
-    if (ads.saveAd(address, price, rooms, square, locality.regionid, locality.id)) {
+    if (ads.saveAd(address, price, rooms, square, description, locality.regionid, locality.id)) {
       console.log('__ad saved');
       urls.changeUrlParsedStatus(url.id);
     }

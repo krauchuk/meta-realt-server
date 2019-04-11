@@ -9,6 +9,7 @@ const parseAd = (url, options) => {
         price: options.price,
         rooms: options.rooms,
         square: options.square,
+        description: options.description,
       })
       .data(data => resolve(data));
   });
