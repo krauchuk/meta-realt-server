@@ -18,6 +18,7 @@ exports.up = function(db) {
     price: 'character varying',
     rooms: 'smallint',
     square: 'character varying',
+    description: 'character varying',
     regionid: 'bigint',
     localityid: 'bigint',
     createdAt: 'date',
