@@ -1,6 +1,7 @@
 const hataByOptions = {
   adsListUrl: 'https://www.hata.by/sale-flat/list/',
   adUrlBlock: '.b-object-tabs__main-img',
+  adUrl: '@href',
   nextPageBtn: '.b-pagination__item_nav',
   adOptions: {
     address: '.b-card__address',
@@ -8,6 +9,8 @@ const hataByOptions = {
     rooms: '.i-table tr + tr .value',
     square: '.b-card__product .num',
     description: '.b-card__article .description',
+    picBlock: '.fotorama-main a',
+    pic: '@href',
   },
   formatOptions: {
     address: (str) => {
@@ -36,6 +39,7 @@ const hataByOptions = {
     },
     square: str => (str.split(' ')[0]),
     description: str => str,
+    pic: str => (str.split('&image=')[1]),
   },
 };
 

@@ -5,6 +5,7 @@ const urls = require('./controllers/url');
 const regions = require('./controllers/region');
 const localities = require('./controllers/locality');
 const ads = require('./controllers/ad');
+const pics = require('./controllers/pic');
 
 const saveNewUrls = async () => {
   for (const [optionKey, option] of options) {
@@ -64,9 +65,15 @@ const parseAndSaveAds = async () => {
     const square = format.square(ad.square);
     const description = format.description(ad.description);
     const locality = await getLocality(address);
-    if (ads.saveAd(address, price, rooms, square, description, locality.regionid, locality.id)) {
+    const adId = await ads.saveAd(address, price, rooms, square,
+      description, locality.regionid, locality.id);
+    if (adId) {
       console.log('__ad saved');
       urls.changeUrlParsedStatus(url.id);
+      const picsArr = await parser.parsePicsList(url.address, option);
+      for (let j = 0; j < picsArr.length; j += 1) {
+        pics.saveAdPics(format.pic(picsArr[j]), adId);
+      }
     }
   }
   console.log('All ads saved');

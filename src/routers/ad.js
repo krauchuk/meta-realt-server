@@ -1,5 +1,6 @@
 const express = require('express');
 const Ad = require('../models/ad');
+const Pic = require('../models/pic');
 
 const router = express.Router();
 
@@ -47,6 +48,19 @@ router.get('/id/:id', (req, res) => {
   })
     .then((ad) => {
       res.send(ad);
+    })
+    .catch(err => console.log(err));
+});
+
+router.get('/pic/:adid', (req, res) => {
+  const { adid } = req.params;
+  Pic.findAll({
+    attributes: ['id', 'url'],
+    where: { adid },
+    raw: true,
+  })
+    .then((pics) => {
+      res.send(pics);
     })
     .catch(err => console.log(err));
 });

@@ -10,7 +10,7 @@ const saveAd = (address, price, rooms, square, description, regionid, localityid
     regionid,
     localityid,
   })
-    .then(() => true)
+    .then(ad => (ad.id))
     .catch(err => console.log(err))
 );
 
