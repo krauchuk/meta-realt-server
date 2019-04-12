@@ -24,7 +24,7 @@ const parseAdsList = (options) => {
       .paginate(options.nextPageBtn).delay(500)
       .find(options.adUrlBlock)
       .set({
-        adUrl: '@href',
+        adUrl: options.adUrl,
       })
       .data((data) => {
         adsUrl.push(data.adUrl);
@@ -35,7 +35,26 @@ const parseAdsList = (options) => {
   return promise;
 };
 
+const parsePicsList = (url, options) => {
+  const promise = new Promise((resolve) => {
+    const pics = [];
+    osmosis
+      .get(url)
+      .find(options.picBlock)
+      .set({
+        picUrl: options.pic,
+      })
+      .data((data) => {
+        pics.push(data.picUrl);
+      })
+      .done(() => resolve(pics))
+      .log(console.log);
+  });
+  return promise;
+};
+
 module.exports = {
   parseAd,
   parseAdsList,
+  parsePicsList,
 };

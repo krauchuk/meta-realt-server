@@ -11,18 +11,17 @@ exports.setup = function(options, seedLink) {
 };
 
 exports.up = function(db) {
-  return db.createTable('urls', {
+  return db.createTable('pics', {
     id: { type: 'bigserial', primaryKey: true },
-    address: 'character varying',
-    parsed: 'boolean',
-    optionkey: 'character varying',
+    url: 'character varying',
+    adid: 'bigint',
     createdAt: 'date',
     updatedAt: 'date',
   });
 };
 
 exports.down = function(db) {
-  return db.dropTable('urls');
+  return db.dropTable('pics');
 };
 
 exports._meta = {
