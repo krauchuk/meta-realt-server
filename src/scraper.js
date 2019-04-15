@@ -67,14 +67,19 @@ const parseAndSaveAds = async () => {
     const locality = await getLocality(address);
     const adId = await ads.saveAd(address, price, rooms, square,
       description, locality.regionid, locality.id);
+    let adMainPic = null;
     if (adId) {
-      console.log('__ad saved');
       urls.changeUrlParsedStatus(url.id);
       const picsArr = await parser.parsePicsList(url.address, option);
       for (let j = 0; j < picsArr.length; j += 1) {
+        if (j === 0) {
+          adMainPic = await pics.saveAdPics(format.pic(picsArr[j]), adId);
+        }
         pics.saveAdPics(format.pic(picsArr[j]), adId);
       }
     }
+    ads.addPicId(adId, adMainPic);
+    console.log('__ad saved');
   }
   console.log('All ads saved');
 };

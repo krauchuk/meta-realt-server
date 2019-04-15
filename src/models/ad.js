@@ -2,6 +2,7 @@ const Sequelize = require('sequelize');
 const db = require('../dbConfig');
 const Region = require('./region');
 const Locality = require('./locality');
+const Pic = require('./pic');
 
 const Ad = db.define('ad', {
   id: {
@@ -33,6 +34,11 @@ Ad.belongsTo(Region, {
 
 Ad.belongsTo(Locality, {
   foreignKey: 'localityid',
+  targetKey: 'id',
+});
+
+Ad.belongsTo(Pic, {
+  foreignKey: 'picid',
   targetKey: 'id',
 });
 
