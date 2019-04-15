@@ -52,7 +52,7 @@ router.get('/id/:id', (req, res) => {
     .catch(err => console.log(err));
 });
 
-router.get('/pic/:adid', (req, res) => {
+router.get('/pics/:adid', (req, res) => {
   const { adid } = req.params;
   Pic.findAll({
     attributes: ['id', 'url'],
@@ -61,6 +61,19 @@ router.get('/pic/:adid', (req, res) => {
   })
     .then((pics) => {
       res.send(pics);
+    })
+    .catch(err => console.log(err));
+});
+
+router.get('/pic/:adid', (req, res) => {
+  const { adid } = req.params;
+  Pic.findOne({
+    attributes: ['id', 'url'],
+    where: { adid },
+    raw: true,
+  })
+    .then((pic) => {
+      res.send(pic);
     })
     .catch(err => console.log(err));
 });
