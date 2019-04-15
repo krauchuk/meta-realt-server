@@ -20,6 +20,10 @@ router.get('/', (req, res) => {
 
   Ad.findAll({
     where: data,
+    include: {
+      model: Pic,
+      attributes: ['url'],
+    },
     raw: true,
     offset,
     limit,

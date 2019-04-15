@@ -5,7 +5,7 @@ const saveAdPics = (url, adid) => (
     url,
     adid,
   })
-    .then(() => true)
+    .then(pic => pic.id)
     .catch(err => console.log(err))
 );
 

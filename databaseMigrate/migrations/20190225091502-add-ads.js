@@ -20,6 +20,7 @@ exports.up = function(db) {
     description: 'character varying',
     regionid: 'bigint',
     localityid: 'bigint',
+    picid: 'bigint',
     createdAt: 'date',
     updatedAt: 'date',
   });

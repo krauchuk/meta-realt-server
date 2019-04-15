@@ -1,6 +1,5 @@
 const Sequelize = require('sequelize');
 const db = require('../dbConfig');
-const Ad = require('./ad');
 
 const Pic = db.define('pic', {
   id: {
@@ -11,11 +10,9 @@ const Pic = db.define('pic', {
   url: {
     type: Sequelize.STRING,
   },
-});
-
-Pic.belongsTo(Ad, {
-  foreignKey: 'adid',
-  targetKey: 'id',
+  adid: {
+    type: Sequelize.BIGINT,
+  },
 });
 
 module.exports = Pic;
