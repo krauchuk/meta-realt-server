@@ -13,7 +13,7 @@ const Url = db.define('url', {
   parsed: {
     type: Sequelize.BOOLEAN,
   },
-  optionkey: {
+  parser: {
     type: Sequelize.STRING,
   },
 });

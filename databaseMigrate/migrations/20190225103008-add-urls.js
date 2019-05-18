@@ -15,7 +15,7 @@ exports.up = function(db) {
     id: { type: 'bigserial', primaryKey: true },
     address: 'character varying',
     parsed: 'boolean',
-    optionkey: 'character varying',
+    parser: 'character varying',
     createdAt: 'date',
     updatedAt: 'date',
   });

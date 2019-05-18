@@ -4,7 +4,9 @@ const Region = require('../models/region');
 const router = express.Router();
 
 router.get('/', (req, res) => {
-  Region.findAll()
+  Region.findAll({
+    attributes: ['id', 'name'],
+  })
     .then((regions) => {
       res.send(regions);
     })

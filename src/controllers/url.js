@@ -2,17 +2,20 @@ const Url = require('../models/url');
 
 const getUrlByAddr = address => (
   Url.findOne({
-    attributes: ['id', 'address', 'parsed', 'optionkey'],
+    attributes: ['id', 'address', 'parsed', 'parser'],
     where: { address },
   })
     .then(url => (url))
     .catch(err => console.log(err))
 );
 
-const getNotParsedUrls = () => (
+const getNotParsedUrls = parser => (
   Url.findAll({
-    attributes: ['id', 'address', 'parsed', 'optionkey'],
-    where: { parsed: false },
+    attributes: ['id', 'address', 'parsed', 'parser'],
+    where: {
+      parsed: false,
+      parser,
+    },
     raw: true,
   })
     .then(urls => (urls))
@@ -32,11 +35,11 @@ const changeUrlParsedStatus = id => (
     .catch(err => console.log(err))
 );
 
-const saveUrl = (address, optionkey) => (
+const saveUrl = (address, parser) => (
   Url.create({
     address,
     parsed: false,
-    optionkey,
+    parser,
   })
     .then(() => true)
     .catch(err => console.log(err))
