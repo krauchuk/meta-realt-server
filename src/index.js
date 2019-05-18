@@ -22,5 +22,10 @@ app.listen(3333, () => {
 });
 
 if (scraperEnabled) {
-  scraper.run();
+  const time = 3 * 60 * 60 * 1000;
+  const schedule = async () => {
+    await scraper.run();
+    setTimeout(schedule, time);
+  };
+  schedule();
 }
