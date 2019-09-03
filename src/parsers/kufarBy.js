@@ -52,7 +52,8 @@ const getPicsUrlArr = (adUrl) => {
       const picsArr = [];
       const picsIdArr = response.data.result.images;
       picsIdArr.forEach((pic) => {
-        picsArr.push(`https://content.kufar.by/gallery/10/${pic.id}.jpg`);
+        const picServ = pic.id.substring(0, 2);
+        picsArr.push(`https://content.kufar.by/gallery/${picServ}/${pic.id}.jpg`);
       });
       return picsArr;
     })
