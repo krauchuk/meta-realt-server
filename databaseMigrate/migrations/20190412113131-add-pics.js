@@ -11,23 +11,17 @@ exports.setup = function(options, seedLink) {
 };
 
 exports.up = function(db) {
-  return db.createTable('ads', {
+  return db.createTable('pics', {
     id: { type: 'bigserial', primaryKey: true },
-    address: 'character varying',
-    price: 'character varying',
-    rooms: 'smallint',
-    square: 'character varying',
-    description: 'character varying',
-    regionid: 'bigint',
-    localityid: 'bigint',
-    picid: 'bigint',
+    url: 'character varying',
+    adid: 'bigint',
     createdAt: 'date',
     updatedAt: 'date',
   });
 };
 
 exports.down = function(db) {
-  return db.dropTable('ads');
+  return db.dropTable('pics');
 };
 
 exports._meta = {

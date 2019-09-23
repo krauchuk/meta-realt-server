@@ -1,4 +1,3 @@
-/* eslint-disable */
 'use strict';
 
 var dbm;
@@ -16,6 +15,8 @@ exports.up = function(db) {
     id: { type: 'bigserial', primaryKey: true },
     name: 'character varying',
     regionid: 'bigint',
+    createdAt: 'date',
+    updatedAt: 'date',
   });
 };
 

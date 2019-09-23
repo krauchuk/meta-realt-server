@@ -1,45 +1,39 @@
-const parser = require('./parser/parser');
-const db = require('./queries/queries');
-const options = require('./parser/parserOptions');
+const parsers = require('./parsers');
+
+const urls = require('./controllers/url');
+const regions = require('./controllers/region');
+const localities = require('./controllers/locality');
+const ads = require('./controllers/ad');
+const pics = require('./controllers/pic');
 
 const saveNewUrls = async () => {
-  for (const [optionKey, option] of options) {
-    console.log('Parse Ads List');
-    const adsUrls = await parser.parseAdsList(option);
+  for (const [parserName, parser] of parsers) {
+    console.log(`Parse Ads List; parser: ${parserName}`);
+    const adsUrls = await parser.getAdsUrlArr();
     console.log('Ads List is parsed');
     for (const adUrl of adsUrls) {
-      if (!await db.getUrlByUrl(adUrl)) {
-        if (db.saveUrl(adUrl, optionKey)) {
+      if (!await urls.getUrlByAddr(adUrl)) {
+        if (urls.saveUrl(adUrl, parserName)) {
           console.log(`Url: ${adUrl} saved`);
         }
       }
     }
+    console.log('All urls saved');
   }
-  console.log('All urls saved');
 };
 
-const getLocality = async (address) => {
-  let localityName = null;
-  let regionName = null;
-  const addrArr = address.split(' ');
-  if (addrArr[0] === 'г.') {
-    regionName = addrArr[1].substring(0, addrArr[1].length - 1);
-    localityName = addrArr[1].replace(',', '');
-  } else {
-    regionName = addrArr[0];
-    localityName = addrArr[3].replace(',', '');
-  }
-  let region = await db.getRegionByName(regionName);
+const getLocality = async (regionName, localityName) => {
+  let region = await regions.getRegionByName(regionName);
   if (!region) {
-    if (await db.saveRegion(regionName)) {
-      region = await db.getRegionByName(regionName);
+    if (await regions.saveRegion(regionName)) {
+      region = await regions.getRegionByName(regionName);
       console.log(`Region: ${region.name}(id: ${region.id}) saved`);
     }
   }
-  let locality = await db.getLocalityByNameAndRegion(localityName, region.id);
+  let locality = await localities.getLocalityByNameAndRegion(localityName, region.id);
   if (!locality) {
-    if (await db.saveLocality(localityName, region.id)) {
-      locality = await db.getLocalityByNameAndRegion(localityName, region.id);
+    if (await localities.saveLocality(localityName, region.id)) {
+      locality = await localities.getLocalityByNameAndRegion(localityName, region.id);
       console.log(`Locality: ${locality.name}(id: ${locality.id}, regionid: ${locality.regionid}) saved`);
     }
   }
@@ -47,21 +41,36 @@ const getLocality = async (address) => {
 };
 
 const parseAndSaveAds = async () => {
-  const urlArr = await db.getNotParsedUrls();
-  for (let i = 0; i < urlArr.length; i += 1) {
-    console.log(`Parsing ad: ${urlArr[i].url}`);
-    const url = urlArr[i];
-    const option = options.get(url.optionkey).adOptions;
-    const format = options.get(url.optionkey).formatOptions;
-    const ad = await parser.parseAd(url.url, option);
-    const address = format.address(ad.address);
-    const rooms = ad.rooms ? format.rooms(ad.rooms) : null;
-    const price = format.price(ad.price);
-    const square = format.square(ad.square);
-    const locality = await getLocality(address);
-    if (db.saveAd(address, price, rooms, square, locality.regionid, locality.id)) {
+  for (const [parserName, parser] of parsers) {
+    const urlArr = await urls.getNotParsedUrls(parserName);
+    for (const url of urlArr) {
+      console.log(`Parsing ad: ${url.address}`);
+      const ad = await parser.getAdData(url.address);
+      const {
+        address,
+        rooms,
+        price,
+        square,
+        description,
+        regionName,
+        localityName,
+      } = ad;
+      const locality = await getLocality(regionName, localityName);
+      const adId = await ads.saveAd(address, price, rooms, square,
+        description, locality.regionid, locality.id);
+      let adMainPic = null;
+      if (adId) {
+        urls.changeUrlParsedStatus(url.id);
+        const picsArr = await parser.getPicsUrlArr(url.address);
+        for (let j = 0; j < picsArr.length; j += 1) {
+          if (j === 0) {
+            adMainPic = await pics.saveAdPics(picsArr[j], adId);
+          }
+          pics.saveAdPics(picsArr[j], adId);
+        }
+      }
+      ads.addPicId(adId, adMainPic);
       console.log('__ad saved');
-      db.changeUrlParsedStatus(url.id);
     }
   }
   console.log('All ads saved');
