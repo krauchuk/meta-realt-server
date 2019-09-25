@@ -45,15 +45,18 @@
   |  | Type | Description | Example |
   | --- | --- | --- | --- |
   | parameter | `String` | ad url string | ```'site.com/ad/123'``` |
-  | return value | `Object` | object with the 7 keys(described in the next table) | ```{address: 'NY, 42nd Street, 5', rooms: 3, price: '35000', square: '70.3', description: 'best flat in NY!!', regionName: 'NY(state)', localityName: 'NY'}``` |
+  | return value | `Object` | object with the 7 keys(described in the next table) | ```{address: 'NY, 42nd Street, 5', rooms: 3, price: '35000', square: '70.3', description: 'best flat in NY!!', combinedbathroom: true, hasbalcony: false, regionName: 'NY(state)', localityName: 'NY'}``` |
 
   | Key | Type | Can be null | Description |
   | --- | --- | --- | --- |
   | address | `String` | + | real estate location  address |
   | rooms | `Number` | + | number of rooms |
-  | price | `String` | + | real estate price |
-  | square | `String` | + | real estate square(m^2) |
+  | price | `Number` | + | real estate price |
+  | floor | `Number` | + | apartment floor |
+  | square | `Number` | + | real estate square(m^2) |
   | description | `String` | + | ad description |
+  | combinedbathroom | `Boolean` | + | is the bathroom combined |
+  | hasbalcony | `Boolean` | + | is there a balcony |
   | regionName | `String` | - | region where the real estate is located |
   | localityName | `String` | - | village/city where the real estate is located |
 

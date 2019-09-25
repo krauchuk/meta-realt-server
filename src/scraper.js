@@ -50,14 +50,17 @@ const parseAndSaveAds = async () => {
         address,
         rooms,
         price,
+        floor,
         square,
         description,
+        combinedbathroom,
+        hasbalcony,
         regionName,
         localityName,
       } = ad;
       const locality = await getLocality(regionName, localityName);
-      const adId = await ads.saveAd(address, price, rooms, square,
-        description, locality.regionid, locality.id);
+      const adId = await ads.saveAd(address, price, rooms, floor, square,
+        description, combinedbathroom, hasbalcony, locality.regionid, locality.id);
       let adMainPic = null;
       if (adId) {
         urls.changeUrlParsedStatus(url.id);

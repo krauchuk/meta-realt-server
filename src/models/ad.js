@@ -14,16 +14,25 @@ const Ad = db.define('ad', {
     type: Sequelize.STRING,
   },
   price: {
-    type: Sequelize.STRING,
+    type: Sequelize.BIGINT,
   },
   rooms: {
     type: Sequelize.SMALLINT,
   },
+  floor: {
+    type: Sequelize.SMALLINT,
+  },
   square: {
-    type: Sequelize.STRING,
+    type: Sequelize.REAL,
   },
   description: {
     type: Sequelize.STRING,
+  },
+  iscombinedbathroom: {
+    type: Sequelize.BOOLEAN,
+  },
+  hasbalcony: {
+    type: Sequelize.BOOLEAN,
   },
 });
 
