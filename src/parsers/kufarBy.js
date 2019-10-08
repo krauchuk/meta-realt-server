@@ -34,10 +34,16 @@ const getAdData = (adUrl) => {
         address: findValue(data, 'account_parameters', 'p', 'address', 'v'),
         rooms: findValue(data, arrName, 'p', 'rooms', 'vl')
           ? Number.parseInt(findValue(data, arrName, 'p', 'rooms', 'vl'), 10) : null,
-        price: data.price_byn ? data.price_byn : null,
+        price: data.price_byn ? Number.parseInt(data.price_byn, 10) : null,
+        floor: findValue(data, arrName, 'p', 'floor', 'v')
+          ? findValue(data, arrName, 'p', 'floor', 'v')[0] : null,
         square: findValue(data, arrName, 'p', 'size', 'v')
-          ? findValue(data, arrName, 'p', 'size', 'v').toString() : null,
+          ? findValue(data, arrName, 'p', 'size', 'v') : null,
         description: data.body ? data.body.replace(/\n/g, '') : null,
+        combinedbathroom: findValue(data, arrName, 'p', 'bathroom', 'v')
+          ? (findValue(data, arrName, 'p', 'bathroom', 'v') === '0') : null,
+        hasbalcony: findValue(data, arrName, 'p', 'balcony', 'v')
+          ? (findValue(data, arrName, 'p', 'balcony', 'v') === '1') : null,
         regionName: findValue(data, arrName, 'p', 'region', 'vl'),
         localityName: findValue(data, arrName, 'p', 'area', 'vl'),
       };

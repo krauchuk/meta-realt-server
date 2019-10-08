@@ -1,12 +1,16 @@
 const Ad = require('../models/ad');
 
-const saveAd = (address, price, rooms, square, description, regionid, localityid) => (
+const saveAd = (address, price, rooms, floor, square, description,
+  iscombinedbathroom, hasbalcony, regionid, localityid) => (
   Ad.create({
     address,
     price,
     rooms,
+    floor,
     square,
     description,
+    iscombinedbathroom,
+    hasbalcony,
     regionid,
     localityid,
   })

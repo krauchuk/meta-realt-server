@@ -1,19 +1,60 @@
 const express = require('express');
+const { Op } = require('sequelize');
 const Ad = require('../models/ad');
 const Pic = require('../models/pic');
 
 const router = express.Router();
 
-router.get('/', (req, res) => {
-  const data = {};
+const getQuery = (min, max) => {
+  let query = {};
+  if (max) {
+    query = { [Op.between]: [min || 0, max] };
+  } else if (min) {
+    query = { [Op.gte]: min };
+  }
+  return query;
+};
 
+const parseRequest = (req) => {
+  const data = {};
   Object.keys(req.query).forEach((key) => {
-    if (key !== undefined && key !== 'page') {
+    if (key !== undefined && (key === 'regionid' || key === 'localityid'
+      || key === 'iscombinedbathroom' || key === 'hasbalcony' || key === 'rooms')) {
       data[key] = req.query[key];
     }
   });
 
-  const { page } = req.query;
+  const {
+    minPrice,
+    maxPrice,
+    minFloor,
+    maxFloor,
+    minSquare,
+    maxSquare,
+  } = req.query;
+
+  if (minPrice || maxPrice) {
+    data.price = getQuery(minPrice, maxPrice);
+  }
+
+  if (minFloor || maxFloor) {
+    data.floor = getQuery(minFloor, maxFloor);
+  }
+
+  if (minSquare || maxSquare) {
+    data.square = getQuery(minSquare, maxSquare);
+  }
+
+  return data;
+};
+
+router.get('/', (req, res) => {
+  const data = parseRequest(req);
+
+  const {
+    page,
+  } = req.query;
+
   const perPage = 20;
   const offset = (page - 1) * perPage;
   const limit = page * perPage;
@@ -35,7 +76,8 @@ router.get('/', (req, res) => {
 });
 
 router.get('/count', (req, res) => {
-  const data = req.query;
+  const data = parseRequest(req);
+
   Ad.count({
     where: data,
   })
