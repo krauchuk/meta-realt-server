@@ -77,4 +77,4 @@
   2. Import parser in index.js(folder 'parsers') and add in Map like Array(example: ```[parser.getParserName(), parser]```)
 
 ### Front-end application setup
-install front-end from [repository](https://github.com/voronozavr/meta-realt) to use application
+install front-end from [repository](https://github.com/krauchuk/meta-realt) to use application
